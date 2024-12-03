@@ -5,13 +5,18 @@
 
 using namespace std;
 
-vector<City> readFromCSV(string fileName)
-{
+vector<City> readFromCSV(string fileName) {
     vector<City> cities;
-    ifstream file(fileName);
+    ifstream file;
+    file.open(fileName);
 
     if (!file.is_open())
-        cout << "File not opened!" << endl;
+    {
+        cout << "File not opened" << endl;
+        perror("Error");
+        cout << "Error code: " << errno << ", " << strerror(errno) << endl;
+        return cities;
+    }
 
     string line;
     getline(file, line);
