@@ -1,7 +1,7 @@
 //
 // Created by Yanka Deshkovski on 12/3/24.
 //
-#include "city.h"
+#include "readerfile.h"
 
 using namespace std;
 
@@ -14,9 +14,9 @@ vector<City> readFromCSV(string fileName)
         cout << "File not opened!" << endl;
 
     string line;
-    getLine(file, line);
+    getline(file, line);
 
-    while (getLine(file, line))
+    while (getline(file, line))
     {
         stringstream ss(line);
         City place;
