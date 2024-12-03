@@ -6,22 +6,24 @@ using namespace std;
 struct City {
 private:
     // Attributes
-    unsigned int cityID;
+    int cityID;
     string cityName;
     string stateName;
     float latitude;
     float longitude;
-    unsigned int elevation;
-    unsigned int population;
-    unsigned int timezone;
+    int elevation;
+    int population;
+    int timezone;
 
 public:
     // Constructor
-    City(unsigned int ID, const string& cityN, const string& stateN, float lat, float lon, unsigned int elev, unsigned int pop,
-        unsigned int tz);
+    City(int ID, const string& cityN, const string& stateN, float lat, float lon, int elev, int pop,
+        int tz);
+
+    City();
 
     // Getters
-    unsigned int getCityID() const;
+    int getCityID() const;
 
     string getCityName() const;
 
@@ -31,9 +33,25 @@ public:
 
     float getLongitude() const;
 
-    unsigned int getElevation() const;
+    int getElevation() const;
 
-    unsigned int getPopulation() const;
+    int getPopulation() const;
 
-    unsigned int getTimezone() const;
+    int getTimezone() const;
+
+    void setCityID(int val);
+
+    void setCityName(string name);
+
+    void setStateName(string state);
+
+    void setPopulation(int val);
+
+    void setElevation(int val);
+
+    void setTimezone(int val);
+
+    void setLongitude(float lon);
+
+    void setLatitude(float lat);
 };
