@@ -4,35 +4,16 @@
 using namespace std;
 
 struct City {
-private:
     // Attributes
-    unsigned int cityID;
+    int cityID;
     string cityName;
     string stateName;
     float latitude;
     float longitude;
-    unsigned int elevation;
-    unsigned int population;
-    unsigned int timezone;
+    int elevation;
+    int population;
+    string timezone;
 
-public:
     // Constructor
-    City(unsigned int ID, const string& cityN, const string& stateN, float lat, float lon, unsigned int elev, unsigned int pop,
-        unsigned int tz);
-
-    unsigned int getCityID() const;
-
-    string getCityName() const;
-
-    string getStateName() const;
-
-    float getLatitude() const;
-
-    float getLongitude() const;
-
-    unsigned int getElevation() const;
-
-    unsigned int getPopulation() const;
-
-    unsigned int getTimezone() const;
+    City(int id, string n, string st, string cn, float lat, float lon, int elev, int pop, string tz);
 };
