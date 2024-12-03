@@ -1,0 +1,13 @@
+"cityID", "city", "state", "population", "elevation", "longitude", "latitude", "timezone"
+1,Carpetbaggery,North Dakota,1065,35,63.5386,30.0492,4
+2,Conjointment,Wyoming,177,59,68.7763,31.3926,3
+3,Hedonistic,South Dakota,886,5368,63.2567,31.6429,5
+4,Beth,North Carolina,665273,3135,69.3929,31.9802,5
+5,Bitterweed,Minnesota,8317,56,69.5011,31.8042,4
+6,Ginglymoarthrodial,New Jersey,545069,7,67.5198,31.4324,5
+7,Ergotinine,Kansas,3676,8980,68.9956,30.1873,4
+8,Itch,Illinois,231,25,64.7084,31.6327,4
+9,Brodder,Oregon,621879,57,68.6124,31.3895,3
+10,Absolve,North Carolina,3517,364,66.4043,31.375,5
+11,Brotheler,Pennsylvania,947328,4,65.5403,30.2651,2
+12,Arbuscle,California,95210,8,69.7739,31.0012,2
