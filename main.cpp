@@ -3,10 +3,18 @@
 //
 
 #include "iostream"
+#include "City.h"
+#include "readerfile.h"
+
+#include <string>
+#include <iostream>
 
 using namespace std;
 
-int main(){
-    cout << "Hello World!\n";
-    return 1;
+int main()
+{
+    vector<City> cities = readFromCSV("City1.txt");
+    // for (int i = 0; i < cities.size(); i++)
+        // cout << cities[i]->cityName << endl;
+
 }
