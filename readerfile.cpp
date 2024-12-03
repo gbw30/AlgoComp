@@ -22,14 +22,14 @@ vector<City> readFromCSV(string fileName)
         City place = City();
         string temp;
 
-        getline(ss, temp, ','), place.cityID = stoi(temp);
-        getline(ss, place.cityName, ',');
-        getline(ss, place.stateName, ',');
-        getline(ss, temp, ','), place.population = stoi(temp);
-        getline(ss, temp, ','), place.elevation = stoi(temp);
-        getline(ss, temp, ','), place.longitude = stod(temp);
-        getline(ss, temp, ','); place.latitude = stod(temp);
-        getline(ss, temp, ','); place.timezone = stoi(temp);
+        getline(ss, temp, ','), place.setCityID(stoi(temp));
+        getline(ss, temp, ','), place.setCityName(temp);
+        getline(ss, temp, ','), place.setStateName(temp);
+        getline(ss, temp, ','), place.setPopulation(stoi(temp));
+        getline(ss, temp, ','), place.setElevation(stoi(temp));
+        getline(ss, temp, ','), place.setLongitude(stod(temp));
+        getline(ss, temp, ','); place.setLatitude(stod(temp));
+        getline(ss, temp, ','); place.setTimezone(stoi(temp));
 
         cities.push_back(place);
     }
