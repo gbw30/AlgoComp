@@ -1,16 +1,8 @@
-//
-// Created by Yanka Deshkovski on 12/3/24.
-//
+#pragma once
 
-#ifndef ALGOCOMP_READERFILE_H
-#define ALGOCOMP_READERFILE_H
 #include "City.h"
 #include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include <vector>
+#include <fstream>
 
 vector<City> readFromCSV(string fileName);
-
-#endif //ALGOCOMP_READERFILE_H

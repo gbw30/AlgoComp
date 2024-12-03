@@ -1,6 +1,6 @@
-//
-// Created by Yanka Deshkovski on 12/3/24.
-//
+#include <cstring>
+#include <iostream>
+#include <sstream>
 #include "readerfile.h"
 
 using namespace std;

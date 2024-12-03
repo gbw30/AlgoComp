@@ -1,21 +1,15 @@
-//
-// Created by Owner on 12/3/2024.
-//
-
-#ifndef ALGOCOMP_QUICKSORT_H
-#define ALGOCOMP_QUICKSORT_H
+#pragma once
 
 #include <iostream>
 #include <vector>
 #include <string>
-#include <functional> // For std::function
+#include <functional>
 
 #include "City.h"
 
 using namespace std;
 
-// Quicksort function
-template <typename Comparator> // template for the different comparators
+template <typename Comparator>
 void quicksort(vector<City>& cities, int left, int right, Comparator comparator) {
     if (left >= right){return;}
     int pivotIndex = left + (right - left) / 2;
@@ -70,5 +64,3 @@ bool compareByPopulation(const City& a, const City& b){
 bool compareByTimezone(const City& a, const City& b){
     return a.timezone < b.timezone;
 }
-
-#endif //ALGOCOMP_QUICKSORT_H

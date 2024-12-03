@@ -16,7 +16,7 @@ private:
     int timezone;
 
 public:
-    // Constructor
+    // Constructors
     City(int ID, const string& cityN, const string& stateN, float lat, float lon, int elev, int pop,
         int tz);
 
@@ -39,6 +39,7 @@ public:
 
     int getTimezone() const;
 
+    // Setters
     void setCityID(int val);
 
     void setCityName(string name);
