@@ -20,6 +20,7 @@ public:
     City(unsigned int ID, const string& cityN, const string& stateN, float lat, float lon, unsigned int elev, unsigned int pop,
         unsigned int tz);
 
+    // Getters
     unsigned int getCityID() const;
 
     string getCityName() const;
