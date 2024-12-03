@@ -1,4 +1,4 @@
-"cityID", "city", "state", "population", "elevation", "longitude", "latitude", "timezone"
+"cityID", "city", "state", "population", "elevation", "longitude", "latitude","timezone"
 1,Carpetbaggery,North Dakota,1065,35,63.5386,30.0492,4
 2,Conjointment,Wyoming,177,59,68.7763,31.3926,3
 3,Hedonistic,South Dakota,886,5368,63.2567,31.6429,5
