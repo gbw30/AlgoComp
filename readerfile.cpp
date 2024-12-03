@@ -1,13 +1,7 @@
 //
 // Created by Yanka Deshkovski on 12/3/24.
 //
-
 #include "city.h"
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
 
 using namespace std;
 
