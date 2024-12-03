@@ -36,39 +36,35 @@ void quicksort(vector<City>& cities, int left, int right, Comparator comparator)
 
 // Comparator functions
 bool compareByCityID(const City& a, const City& b){
-    return a.cityID < b.cityID;
+    return a.getCityID() < b.getCityID();
 }
 
 bool compareByName(const City& a, const City& b){
-    return a.name < b.name;
+    return a.getCityName() < b.getCityName();
 }
 
 bool compareByState(const City& a, const City& b){
-    return a.state < b.state;
-}
-
-bool compareByCountry(const City& a, const City& b){
-    return a.country < b.country;
+    return a.getStateName() < b.getStateName();
 }
 
 bool compareByLatitude(const City& a, const City& b){
-    return a.latitude < b.latitude;
+    return a.getLatitude() < b.getLatitude();
 }
 
 bool compareByLongitude(const City& a, const City& b){
-    return a.longitude < b.longitude;
+    return a.getLongitude() < b.getLongitude();
 }
 
 bool compareByElevation(const City& a, const City& b){
-    return a.elevation < b.elevation;
+    return a.getElevation() < b.getElevation();
 }
 
 bool compareByPopulation(const City& a, const City& b){
-    return a.population < b.population;
+    return a.getPopulation() < b.getPopulation();
 }
 
 bool compareByTimezone(const City& a, const City& b){
-    return a.timezone < b.timezone;
+    return a.getTimezone() < b.getTimezone();
 }
 
 #endif //ALGOCOMP_QUICKSORT_H
