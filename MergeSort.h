@@ -53,3 +53,35 @@ void mergeSort(vector<City>& cities, int left, int right, Comparator comp) {
     merge(cities, left, mid, right, comp);
 }
 
+bool compareByCityID(const City& a, const City& b){
+    return a.getCityID() < b.getCityID();
+}
+
+bool compareByName(const City& a, const City& b){
+    return a.getCityName() < b.getCityName();
+}
+
+bool compareByState(const City& a, const City& b){
+    return a.getStateName() < b.getStateName();
+}
+
+bool compareByLatitude(const City& a, const City& b){
+    return a.getLatitude() < b.getLatitude();
+}
+
+bool compareByLongitude(const City& a, const City& b){
+    return a.getLongitude() < b.getLongitude();
+}
+
+bool compareByElevation(const City& a, const City& b){
+    return a.getElevation() < b.getElevation();
+}
+
+bool compareByPopulation(const City& a, const City& b){
+    return a.getPopulation() < b.getPopulation();
+}
+
+bool compareByTimezone(const City& a, const City& b) {
+    return a.getTimezone() < b.getTimezone();
+}
+
