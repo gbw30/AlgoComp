@@ -5,10 +5,11 @@
 #ifndef ALGOCOMP_READERFILE_H
 #define ALGOCOMP_READERFILE_H
 #include "City.h"
-#include <string>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
 #include <vector>
 
 vector<City> readFromCSV(string fileName);
