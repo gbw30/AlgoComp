@@ -724,6 +724,7 @@ void tester3(vector<City>& quick, vector<City>& merge)
 //    {
 //        cout << endl;
 //    }
+
 }
 
 int main()
