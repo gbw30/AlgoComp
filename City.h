@@ -3,7 +3,7 @@
 #include "string"
 using namespace std;
 
-struct City {
+class City {
 private:
     // Attributes
     int cityID;
