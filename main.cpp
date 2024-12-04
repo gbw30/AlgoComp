@@ -55,8 +55,8 @@ int underOver()
 
 void printResults(double quick, double merge)
 {
-    cout << "QuickSort took " << quick << "seconds" << endl;
-    cout << "MergeSort took " << merge << "seconds" << endl << endl;
+    cout << endl << "QuickSort took " << quick << " seconds" << endl;
+    cout << "MergeSort took " << merge << " seconds" << endl;
 }
 
 void handleCase0(vector<City>& quick, vector<City>& merge)
@@ -77,8 +77,6 @@ void handleCase0(vector<City>& quick, vector<City>& merge)
 
     mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    printResults(quickTime, mergeTime);
-
     cout << "CITY" << " | " << "STATE" << " | " << "POPULATION" << " | "
          << "ELEVATION" << " | " << "LATITUDE"  << " | " << "LONGITUDE" << " | " << "TIMEZONE"
          << endl;
@@ -88,6 +86,8 @@ void handleCase0(vector<City>& quick, vector<City>& merge)
         << c.getElevation() << " | " << c.getLatitude()  << " | " << c.getLongitude() << " | " << c.getTimezone()
         << endl;
     }
+
+    printResults(quickTime, mergeTime);
 }
 
 int main()
