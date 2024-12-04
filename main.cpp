@@ -336,11 +336,105 @@ void handleCase4(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-void handleCase5(int ou, vector<City>& quick, vector<City>& merge){}
+// BROKEN waiting for next binary search implementation
+void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
+{
+    if (ou == 1)
+        cout << "Under what population do you want the cities? (Type 150-9997672)" << endl;
+    else
+        cout << "Over what population do you want the cities? (Type 150-9997672)" << endl;
+
+    int input;
+    while (true)
+    {
+        if (cin >> input)
+        {
+            if (input >= 150 && input <= 9997672)
+                break;
+            else
+                cout << "Invalid input. Please enter a number between 150 and 9997672." << endl;
+        }
+        else
+        {
+            cout << "Invalid input. Please enter a number between 150 and 9997672." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByPopulation);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    pair<int, int> r = binarySearchRange<int>(quick, input, [](const City& city) {return city.getPopulation();});
+
+    if (ou == 1)
+    {
+        if (input != 150)
+        {
+            cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
+                 << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+                 << endl;
+            for (int i = 0; i < r.first; i++)
+            {
+                cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
+                     << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
+                     " | " << quick[i].getTimezone()
+                     << endl;
+            }
+        }
+        else
+        {
+            cout << "No such city exists." << endl;
+        }
+    }
+    else
+    {
+        if (input != 9997672)
+        {
+            cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
+                 << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+                 << endl;
+            for (int i = r.second + 1; i <= 9997672; i++)
+            {
+                cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
+                     << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
+                     " | " << quick[i].getTimezone()
+                     << endl;
+            }
+        }
+        else
+        {
+            cout << "No such city exists." << endl;
+        }
+    }
+
+    printResults(quickTime, mergeTime);
+}
+
+// waiting for next binary search implementation
 void handleCase6(vector<City>& quick, vector<City>& merge){}
+// waiting for next binary search implementation
 void handleCase7(int ou, vector<City>& quick, vector<City>& merge){}
+// waiting for next binary search implementation
 void handleCase8(int ou, vector<City>& quick, vector<City>& merge){}
+
+// next task
 void handleCase9(vector<City>& quick, vector<City>& merge){}
+
+// waiting for next binary search implementation
 void handleCase10(int ou, vector<City>& quick, vector<City>& merge){}
 
 void testerPopulation(vector<City>& quick, vector<City>& merge)
