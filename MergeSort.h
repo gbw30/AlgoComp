@@ -10,35 +10,29 @@ void merge(vector<City>& cities, int left, int mid, int right, Comparator comp) 
 
     vector<City> L(n1), R(n2);
 
-    for (int i = 0; i < n1; i++) L[i] = cities[left+i];
+    for (int i = 0; i < n1; i++) L[i] = cities[left + i];
 
-    for (int j = 0; j < n2; j++) R[j] = cities[mid+1+j];
+    for (int j = 0; j < n2; j++) R[j] = cities[mid + 1 + j];
 
     int i = 0;
     int j = 0;
     int k = left;
 
     while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            cities[k] = L[i];
-            i++;
+        if (comp(L[i], R[j])) {
+            cities[k++] = L[i++];
 
         } else {
-            cities[k] = R[j];
-            j++;
+            cities[k++] = R[j++];
         }
     }
 
     while (i < n1) {
-        cities[k] = L[i];
-        i++;
-        k++;
+        cities[k++] = L[i++];
     }
 
     while (j < n2) {
-        cities[k] = R[j];
-        j++;
-        k++;
+        cities[k++] = R[j++];
     }
 }
 
