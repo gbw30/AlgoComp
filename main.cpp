@@ -274,7 +274,7 @@ void handleCase3(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-//done
+// done
 void handleCase4(vector<City>& quick, vector<City>& merge)
 {
     cout << "What exact population do you want? (Type 150-9997672)" << endl;
@@ -336,7 +336,7 @@ void handleCase4(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// BROKEN waiting for next binary search implementation
+// FIXED - done
 void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -378,7 +378,8 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
 
     mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    pair<int, int> r = binarySearchRange<int>(quick, input, [](const City& city) {return city.getPopulation();});
+    pair<int, int> r =
+            binarySearchClosestUpper<int>(quick, input, [](const City& city) {return city.getPopulation();});
 
     if (ou == 1)
     {
@@ -387,7 +388,7 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
             cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
                  << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
                  << endl;
-            for (int i = 0; i < r.first; i++)
+            for (int i = 0; i < r.first - 1; i++)
             {
                 cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
                      << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
@@ -407,7 +408,7 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
             cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
                  << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
                  << endl;
-            for (int i = r.second + 1; i <= 9997672; i++)
+            for (int i = r.second; i <= quick.size() - 1; i++)
             {
                 cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
                      << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
@@ -424,11 +425,11 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// waiting for next binary search implementation
+// 6 - All cities in between two specified populations [Population]
 void handleCase6(vector<City>& quick, vector<City>& merge){}
-// waiting for next binary search implementation
+// 7 - All cities under/over a specified latitude [Latitude]
 void handleCase7(int ou, vector<City>& quick, vector<City>& merge){}
-// waiting for next binary search implementation
+// 8 - All cities under/over a specified longitude [Longitude]
 void handleCase8(int ou, vector<City>& quick, vector<City>& merge){}
 
 // fixed - done
@@ -494,7 +495,7 @@ void handleCase9(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// waiting for next binary search implementation
+// 10 - All cities under/over a specified elevation [Elevation]
 void handleCase10(int ou, vector<City>& quick, vector<City>& merge){}
 
 void testerPopulation(vector<City>& quick, vector<City>& merge)
@@ -542,9 +543,13 @@ void tester3(vector<City>& quick, vector<City>& merge)
 {
     quicksort(quick, 0, quick.size() - 1, compareByPopulation);
 
-    for (int i = quick.size(); i >= 0; i--)
+    pair<int, int> r = binarySearchClosestUpper<int>(quick, 9997671, [](const City& city) {return city.getPopulation();});
+
+    cout << r.first << "  " << r.second << endl;
+
+    for (int i = r.second; i <= quick.size() - 1; i++)
     {
-        cout << quick[i].getPopulation() << endl;
+        cout << quick[i].getCityName() << endl;
     }
 
 }
