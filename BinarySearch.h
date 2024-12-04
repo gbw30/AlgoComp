@@ -1,7 +1,3 @@
-//
-// Created by Gabriel Wong Chong on 12/4/2024.
-//
-
 #ifndef ALGOCOMP_BINARYSEARCH_H
 #define ALGOCOMP_BINARYSEARCH_H
 
@@ -10,9 +6,48 @@
 #include <vector>
 #include <string>
 #include "City.h"
-#include <utility> // For pair
+#include <utility>
 
 using namespace std;
+
+pair<int, int> binarySearchClosestUpper(const vector<int>& arr, int x) {
+    int n = arr.size();
+    int left = 0, right = n - 1;
+    int closestUpper = -1;
+
+    // Binary search to find the closest upper or exact value
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] >= x) {
+            closestUpper = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+
+    if (closestUpper == -1) {
+        // No upper value exists (x is larger than all elements)
+        return {-1, -1};
+    }
+
+    // Find the range of the closest upper value
+    int closestValue = arr[closestUpper];
+    int first = closestUpper, last = closestUpper;
+
+    // Expand to find the first occurrence
+    while (first > 0 && arr[first - 1] == closestValue) {
+        --first;
+    }
+
+    // Expand to find the last occurrence
+    while (last < n - 1 && arr[last + 1] == closestValue) {
+        ++last;
+    }
+
+    return {first, last};
+}
 
 // Binary search function
 template <typename T>
