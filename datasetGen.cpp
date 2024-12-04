@@ -73,12 +73,12 @@ int eleGen()
 
 float lonGen()
 {
-    return (random() % 70000) / 10000.0 + 63;
+    return (random() % 70000) / 1000.0 + 63;
 }
 
 float latGen()
 {
-    return (random() % 20000) / 10000.0 + 30;
+    return (random() % 20000) / 1000.0 + 30;
 }
 
 int stateGen()

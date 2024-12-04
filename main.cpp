@@ -4,6 +4,7 @@
 #include "MergeSort.h"
 #include "QuickSort.h"
 #include "BinarySearch.h"
+#include "datasetGen.h"
 
 #include <string>
 #include <time.h>
@@ -383,7 +384,7 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
 
     if (ou == 1)
     {
-        if (input != 150)
+        if (input != quick[0].getPopulation())
         {
             cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
                  << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
@@ -403,7 +404,7 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
     }
     else
     {
-        if (input != 9997672)
+        if (input != quick[quick.size() - 1].getPopulation())
         {
             cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
                  << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
@@ -558,7 +559,7 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
 
     if (ou == 1)
     {
-        if (input != 150)
+        if (input != quick[0].getPopulation())
         {
             cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
                  << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
@@ -578,7 +579,7 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
     }
     else
     {
-        if (input != 9997672)
+        if (input != quick[quick.size() - 1].getPopulation())
         {
             cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
                  << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
@@ -714,21 +715,24 @@ void testerStrings(vector<City>& quick, vector<City>& merge)
 
 void tester3(vector<City>& quick, vector<City>& merge)
 {
-    quicksort(quick, 0, quick.size() - 1, compareByLatitude);
+    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
 
     //cout << r.first << "  " << r.second << endl;
 
-    for (int i = 0; i <= quick.size() - 1; i++)
-    {
-        cout << quick[i].getLatitude() << endl;
-    }
+    cout << quick[0].getPopulation() << "   " << quick[quick.size() - 1].getPopulation() << endl;
+//    for (int i = 0; i <= quick.size() - 1; i++)
+//    {
+//        cout << endl;
+//    }
 
 }
 
 int main()
 {
-    vector<City> quick_cities = readFromCSV("../test2.txt");
-    vector<City> merge_cities = readFromCSV("../test2.txt");
+    // dataSetCreator();
+
+    vector<City> quick_cities = readFromCSV("../test.txt");
+    vector<City> merge_cities = readFromCSV("../test.txt");
 
     main_menu();
     int input;
