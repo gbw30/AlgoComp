@@ -48,7 +48,7 @@ void mergeSort(vector<City>& cities, int left, int right, Comparator comp) {
     merge(cities, left, mid, right, comp);
 }
 
-// Comparators
+// Comparator functions
 bool compareByCityID(const City& a, const City& b){
     return a.getCityID() < b.getCityID();
 }
