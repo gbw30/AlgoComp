@@ -670,7 +670,92 @@ void handleCase9(vector<City>& quick, vector<City>& merge)
 
 // 10 - All cities under/over a specified elevation [Elevation]
 void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
-{}
+{
+    if (ou == 1)
+        cout << "Under what elevation do you want the cities? (Type 0-9999)" << endl;
+    else
+        cout << "Over what elevation do you want the cities? (Type 0-9999)" << endl;
+
+    int input;
+    while (true)
+    {
+        if (cin >> input)
+        {
+            if (input >= 0 && input <= 9999)
+                break;
+            else
+                cout << "Invalid input. Please enter a number between 0 and 9999." << endl;
+        }
+        else
+        {
+            cout << "Invalid input. Please enter a number between 0 and 9999." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByElevation);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByElevation);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    pair<int, int> r =
+            binarySearchClosestUpper<int>(quick, input, [](const City& city) {return city.getElevation();});
+
+    if (ou == 1)
+    {
+        if (input != quick[0].getElevation())
+        {
+            cout << "ELEVATION" << " | " << "CITY" << " | " << "STATE" << " | "
+                 << "POPULATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+                 << endl;
+            for (int i = 0; i < r.first - 1; i++)
+            {
+                cout << quick[i].getElevation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
+                     << quick[i].getPopulation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
+                     " | " << quick[i].getTimezone()
+                     << endl;
+            }
+        }
+        else
+        {
+            cout << "No such city exists." << endl;
+        }
+    }
+    else
+    {
+        if (input != quick[quick.size() - 1].getElevation())
+        {
+            cout << "ELEVATION" << " | " << "CITY" << " | " << "STATE" << " | "
+                 << "POPULATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+                 << endl;
+            for (int i = r.second + 1; i <= quick.size() - 1; i++)
+            {
+                cout << quick[i].getElevation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
+                     << quick[i].getPopulation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
+                     " | " << quick[i].getTimezone()
+                     << endl;
+            }
+        }
+        else
+        {
+            cout << "No such city exists." << endl;
+        }
+    }
+
+    printResults(quickTime, mergeTime);
+}
 
 void testerPopulation(vector<City>& quick, vector<City>& merge)
 {
