@@ -542,7 +542,7 @@ void tester3(vector<City>& quick, vector<City>& merge)
 {
     quicksort(quick, 0, quick.size() - 1, compareByPopulation);
 
-    for (int i = quick.size(); i >= 0; i--)
+    for ()
     {
         cout << quick[i].getPopulation() << endl;
     }
