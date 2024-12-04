@@ -6,7 +6,6 @@
 #include "BinarySearch.h"
 #include "datasetGen.h"
 
-
 #include <string>
 #include <time.h>
 #include <cctype>
