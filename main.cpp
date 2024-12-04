@@ -31,6 +31,9 @@ void main_menu()
     cout << "8 - All cities under/over a specified longitude [Longitude]" << endl;
     cout << "9 - All cities in a specified state [State Name]" << endl;
     cout << "10 - All cities under/over a specified elevation [Elevation]" << endl;
+    cout << "11 - All urban cities in alphabetical order [population]" << endl;
+    cout << "12 - All suburban cities in alphabetical order [population]" << endl;
+    cout << "13 - All rural cities in alphabetical order [population]" << endl;
 }
 
 int underOver()
@@ -520,27 +523,27 @@ void handleCase6(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// doesn't work - has issues with 'over' for some reason
+// done - tested
 void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
         cout << "Under what latitude do you want the cities? (Type 30.0-49.9999)" << endl;
     else
-        cout << "Over what latitude do you want the cities? (Type 30.0-49.9999)" << endl;
+        cout << "Over what latitude do you want the cities? (Type 30.0-49.999)" << endl;
 
     float input;
     while (true)
     {
         if (cin >> input)
         {
-            if (input >= 30.0 && input <= 49.9999)
+            if (input >= 30.0 && input <= 49.999)
                 break;
             else
-                cout << "Invalid input. Please enter a number between 30 and 49.9999." << endl;
+                cout << "Invalid input. Please enter a number between 30 and 49.999." << endl;
         }
         else
         {
-            cout << "Invalid input. Please enter a number between 40.0 and 49.9999." << endl;
+            cout << "Invalid input. Please enter a number between 40.0 and 49.999." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
@@ -611,7 +614,7 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
     cout << r.first - 1 << endl;
 }
 
-// done - needs testing
+// done - tested
 void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -852,6 +855,12 @@ void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
+void handleCase11(vector<City>& quick, vector<City>& merge)
+{}
+
+void handleCase12(vector<City>& quick, vector<City>& merge) {}
+void handleCase13(vector<City>& quick, vector<City>& merge) {}
+
 void testerPopulation(vector<City>& quick, vector<City>& merge)
 {
     double quickTime;
@@ -921,14 +930,14 @@ int main()
     {
         if (cin >> input)
         {
-            if (input >= 0 && input <= 10)
+            if (input >= 0 && input <= 13)
                 break;
             else
-                cout << "Invalid input. Please enter a number between 0 and 10." << endl;
+                cout << "Invalid input. Please enter a number between 0 and 13." << endl;
         }
         else
         {
-            cout << "Invalid input. Please enter a number between 0 and 10." << endl;
+            cout << "Invalid input. Please enter a number between 0 and 13." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
@@ -974,6 +983,15 @@ int main()
             uo = underOver();
             //tester3(quick_cities, merge_cities);
             handleCase10(uo, quick_cities, merge_cities);
+            break;
+        case 11:
+            handleCase11(quick_cities, merge_cities);
+            break;
+        case 12:
+            handleCase12(quick_cities, merge_cities);
+            break;
+        case 13:
+            handleCase13(quick_cities, merge_cities);
             break;
     }
 
