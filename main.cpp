@@ -570,7 +570,7 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
         if (input != quick[0].getLatitude())
         {
             cout << "LATITUDE"  << " | " << "CITY" << " | " << "STATE" << " | " << "POPULATION" << " | "
-                 << "ELEVATION" << " | " << "LONGITUDE" << " | " << "TIMEZONE" << r.first - 1
+                 << "ELEVATION" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
                  << endl;
             for (int i = 0; i <= r.first - 1; i++)
             {
