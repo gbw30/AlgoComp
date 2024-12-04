@@ -77,6 +77,50 @@ pair<int, int> binarySearchRange(
     return {first, last}; // Return the indices of the first and last occurrences
 }
 
+// Binary search for a range of names starting with a specific prefix
+pair<int, int> binarySearchByPrefix(
+        const vector<City>& cities,
+        char prefix,
+        function<string(const City&)> getAttribute)
+{
+    int first = -1;
+    int last = -1;
+    int left = 0;
+    int right = cities.size() - 1;
+    string prefixStr(1, prefix); // Convert char to string for comparison
+    // Find the first occurrence
+    while (left <= right){
+        int mid = left + (right - left) / 2;
+        string midValue = getAttribute(cities[mid]);
+        if (midValue.substr(0, 1) == prefixStr){
+            first = mid;
+            right = mid - 1; // Continue searching in the left half
+        } else if (midValue < prefixStr){
+            left = mid + 1;
+        } else{
+            right = mid - 1;
+        }
+    }
+    // Reset search range
+    left = 0;
+    right = cities.size() - 1;
 
+    // Find the last occurrence
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        string midValue = getAttribute(cities[mid]);
+
+        if (midValue.substr(0, 1) == prefixStr) {
+            last = mid;
+            left = mid + 1; // Continue searching in the right half
+        } else if (midValue < prefixStr) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return {first, last}; // Return the indices of the first and last occurrences
+}
 
 #endif //ALGOCOMP_BINARYSEARCH_H
