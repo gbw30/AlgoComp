@@ -464,10 +464,18 @@ void handleCase6(vector<City>& quick, vector<City>& merge)
             }
             lower = stoi(input2.substr(0, counter2));
             upper = stoi(input2.substr(counter2 + 1, input2.size() - counter2 + 1));
+            if (!(lower >= 150 && upper <= 9997672 && upper >= lower))
+                isString = false;
+        }
+
+
+        if (isString)
+        {
             break;
         }
         else
             cout << R"(Invalid input. Please enter 150-9997672 150-9997672.)" << endl;
+
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         getline(cin, input2);
     }
