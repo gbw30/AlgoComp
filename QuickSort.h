@@ -1,5 +1,5 @@
 //
-// Created by Owner on 12/3/2024.
+// Created by Gabriel Wong Chong on 12/3/2024.
 //
 
 #ifndef ALGOCOMP_QUICKSORT_H
