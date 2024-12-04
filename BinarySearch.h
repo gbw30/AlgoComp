@@ -35,8 +35,8 @@ pair<int, int> binarySearchClosestUpper(const vector<City>& cities, T value, fun
     }
 
     // Find the range of the closest upper value
-    int closestValue = getAttribute(cities[closestUpper]);
-    int first = closestUpper, last = closestUpper;
+    auto closestValue = getAttribute(cities[closestUpper]);
+    T first = closestUpper, last = closestUpper;
 
     // Expand to find the first occurrence
     while (first > 0 && getAttribute(cities[first - 1]) == closestValue) {
