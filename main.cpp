@@ -431,8 +431,68 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge){}
 // waiting for next binary search implementation
 void handleCase8(int ou, vector<City>& quick, vector<City>& merge){}
 
-// next task
-void handleCase9(vector<City>& quick, vector<City>& merge){}
+// fixed - done
+void handleCase9(vector<City>& quick, vector<City>& merge)
+{
+    cout << "What state do you want the cities to be from? (Type A-Za-z)" << endl;
+    string input2;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    getline(cin, input2);
+
+    while (true)
+    {
+        bool isString = true;
+        for (int i = 0; i < input2.size(); i++)
+            if (!(isalpha(char(input2[i])) || char(input2[i]) == ' ')) isString = false;
+
+        if (isString)
+        {
+            break;
+        }
+        else
+            cout << R"(Invalid input. Please enter A-Za-z.)" << endl;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        getline(cin, input2);
+    }
+
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByState);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByState);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    pair<int, int> r2 = binarySearchRange<string>(quick, input2, [](const City& city) {return city.getStateName();});
+
+    if (r2.first != -1)
+    {
+        cout << "STATE" << " | " << "CITY" << " | " << "POPULATION" << " | "
+             << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+             << endl;
+        for (int i = r2.first; i <= r2.second; i++)
+        {
+            cout << quick[i].getStateName() << " | " << quick[i].getCityName() << " | " << quick[i].getPopulation() << " | "
+                 << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
+                 " | " << quick[i].getTimezone()
+                 << endl;
+        }
+    }
+    else
+    {
+        cout << "No such state exists." << endl;
+    }
+
+    printResults(quickTime, mergeTime);
+}
 
 // waiting for next binary search implementation
 void handleCase10(int ou, vector<City>& quick, vector<City>& merge){}
@@ -547,7 +607,7 @@ int main()
             handleCase8(uo, quick_cities, merge_cities);
             break;
         case 9:
-            tester3(quick_cities, merge_cities);
+            handleCase9(quick_cities, merge_cities);
             break;
         case 10:
             uo = underOver();
