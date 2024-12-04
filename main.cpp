@@ -6,6 +6,7 @@
 
 #include <string>
 #include <time.h>
+#include <cctype>
 #include <iostream>
 
 using namespace std;
@@ -90,6 +91,73 @@ void handleCase0(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
+// still needs binary search and printing all the cities
+void handleCase1(vector<City>& quick, vector<City>& merge)
+{
+    cout << "Which beginning character do you want to print? (Type a-zA-Z)" << endl;
+    string input2;
+    char c;
+
+    while (true)
+    {
+        if (cin >> input2)
+        {
+            if (input2.size() == 1 && isalpha(char(input2[0])))
+            {
+                c = char(input2[0]);
+                if (islower(c))
+                {
+                    c = toupper(c);
+                }
+                break;
+            }
+            else
+                cout << R"(Invalid input. Please enter a-zA-Z.)" << endl;
+        }
+        else
+        {
+            cout << R"(Invalid input. Please enter a-zA-Z.)" << endl;
+            cin.clear();
+        }
+    }
+
+    cout << "you want " << c << endl;
+
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByName);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByName);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    printResults(quickTime, mergeTime);
+
+}
+
+void handleCase2(vector<City>& quick, vector<City>& merge)
+{
+
+}
+
+void handleCase3(vector<City>& quick, vector<City>& merge){}
+void handleCase4(int ou, vector<City>& quick, vector<City>& merge){}
+void handleCase5(vector<City>& quick, vector<City>& merge){}
+void handleCase6(int ou, vector<City>& quick, vector<City>& merge){}
+void handleCase7(int ou, vector<City>& quick, vector<City>& merge){}
+void handleCase8(vector<City>& quick, vector<City>& merge){}
+void handleCase9(int ou, vector<City>& quick, vector<City>& merge){}
+
+
+
 int main()
 {
     vector<City> quick_cities = readFromCSV("../test2.txt");
@@ -114,6 +182,7 @@ int main()
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
+
     int uo;
     switch (input)
     {
@@ -121,6 +190,7 @@ int main()
             handleCase0(quick_cities, merge_cities);
             break;
         case 1:
+            handleCase1(quick_cities, merge_cities);
             break;
         case 2:
             break;
