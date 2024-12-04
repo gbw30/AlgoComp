@@ -425,12 +425,184 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// 6 - All cities in between two specified populations [Population]
-void handleCase6(vector<City>& quick, vector<City>& merge){}
+// done finally
+void handleCase6(vector<City>& quick, vector<City>& merge)
+{
+    cout << "Which populations do you want to be in between? (Type 150-9997672 150-9997672)" << endl;
+
+    string input2;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    getline(cin, input2);
+    int lower, upper;
+
+    while (true)
+    {
+        bool isString = true;
+        int counter = 0;
+        if (input2[0] == ' ')
+            isString = false;
+        for (int i = 0; i < input2.size(); i++)
+        {
+            if (char(input2[i]) == ' ')
+                counter++;
+        }
+        if (counter != 1)
+            isString = false;
+
+        for (int i = 0; i < input2.size(); i++)
+            if (!(isdigit(char(input2[i])) || char(input2[i]) == ' ')) isString = false;
+
+        if (isString)
+        {
+            int counter2 = 0;
+            for (int i = 0; i < input2.size(); i++)
+            {
+                if (input2[i] == ' ')
+                    break;
+                counter2++;
+            }
+            lower = stoi(input2.substr(0, counter2));
+            upper = stoi(input2.substr(counter2 + 1, input2.size() - counter2 + 1));
+            break;
+        }
+        else
+            cout << R"(Invalid input. Please enter 150-9997672 150-9997672.)" << endl;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        getline(cin, input2);
+    }
+
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByPopulation);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    pair<int, int> r = binarySearchClosestUpper<int>(quick, lower, [](const City& city) {return city.getPopulation();});
+    pair<int, int> r1 = binarySearchClosestUpper<int>(quick, upper, [](const City& city) {return city.getPopulation();});
+
+    if (r.second < r1.first)
+    {
+        cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
+             << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+             << endl;
+        for (int i = r.second + 1; i < r1.first - 1; i++)
+        {
+            cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
+                 << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
+                 " | " << quick[i].getTimezone()
+                 << endl;
+        }
+    }
+    else
+    {
+        cout << "No such city exists." << endl;
+    }
+
+    printResults(quickTime, mergeTime);
+}
+
 // 7 - All cities under/over a specified latitude [Latitude]
-void handleCase7(int ou, vector<City>& quick, vector<City>& merge){}
+void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
+{
+    if (ou == 1)
+        cout << "Under what latitude do you want the cities? (Type 0-9s)" << endl;
+    else
+        cout << "Over what latitude do you want the cities? (Type 0-9s)" << endl;
+
+    float input;
+    while (true)
+    {
+        if (cin >> input)
+        {
+            if (input >= 0 && input <= 9997672)
+                break;
+            else
+                cout << "Invalid input. Please enter a number between 150 and 9997672." << endl;
+        }
+        else
+        {
+            cout << "Invalid input. Please enter a number between 150 and 9997672." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByPopulation);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    pair<int, int> r =
+            binarySearchClosestUpper<int>(quick, input, [](const City& city) {return city.getPopulation();});
+
+    if (ou == 1)
+    {
+        if (input != 150)
+        {
+            cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
+                 << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+                 << endl;
+            for (int i = 0; i < r.first - 1; i++)
+            {
+                cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
+                     << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
+                     " | " << quick[i].getTimezone()
+                     << endl;
+            }
+        }
+        else
+        {
+            cout << "No such city exists." << endl;
+        }
+    }
+    else
+    {
+        if (input != 9997672)
+        {
+            cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
+                 << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+                 << endl;
+            for (int i = r.second; i <= quick.size() - 1; i++)
+            {
+                cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
+                     << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
+                     " | " << quick[i].getTimezone()
+                     << endl;
+            }
+        }
+        else
+        {
+            cout << "No such city exists." << endl;
+        }
+    }
+
+    printResults(quickTime, mergeTime);
+}
+
 // 8 - All cities under/over a specified longitude [Longitude]
-void handleCase8(int ou, vector<City>& quick, vector<City>& merge){}
+void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
+{}
 
 // fixed - done
 void handleCase9(vector<City>& quick, vector<City>& merge)
@@ -496,7 +668,8 @@ void handleCase9(vector<City>& quick, vector<City>& merge)
 }
 
 // 10 - All cities under/over a specified elevation [Elevation]
-void handleCase10(int ou, vector<City>& quick, vector<City>& merge){}
+void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
+{}
 
 void testerPopulation(vector<City>& quick, vector<City>& merge)
 {
@@ -541,15 +714,13 @@ void testerStrings(vector<City>& quick, vector<City>& merge)
 
 void tester3(vector<City>& quick, vector<City>& merge)
 {
-    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
+    quicksort(quick, 0, quick.size() - 1, compareByLatitude);
 
-    pair<int, int> r = binarySearchClosestUpper<int>(quick, 9997671, [](const City& city) {return city.getPopulation();});
+    //cout << r.first << "  " << r.second << endl;
 
-    cout << r.first << "  " << r.second << endl;
-
-    for (int i = r.second; i <= quick.size() - 1; i++)
+    for (int i = 0; i <= quick.size() - 1; i++)
     {
-        cout << quick[i].getCityName() << endl;
+        cout << quick[i].getLatitude() << endl;
     }
 
 }
@@ -617,6 +788,7 @@ int main()
             break;
         case 10:
             uo = underOver();
+            tester3(quick_cities, merge_cities);
             handleCase10(uo, quick_cities, merge_cities);
             break;
     }
