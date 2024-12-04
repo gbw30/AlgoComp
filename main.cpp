@@ -603,7 +603,9 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
 
 // 8 - All cities under/over a specified longitude [Longitude]
 void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
-{}
+{
+
+}
 
 // fixed - done
 void handleCase9(vector<City>& quick, vector<City>& merge)
