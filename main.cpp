@@ -60,7 +60,7 @@ void printResults(double quick, double merge)
     cout << "MergeSort took " << merge << " seconds" << endl;
 }
 
-void handleCase0(vector<City>& quick, vector<City>& merge)
+pair<double, double> sorter(vector<City>& quick, vector<City>& merge)
 {
     double quickTime;
     double mergeTime;
@@ -78,6 +78,14 @@ void handleCase0(vector<City>& quick, vector<City>& merge)
 
     mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 
+    return make_pair(quickTime, mergeTime);
+}
+
+// done
+void handleCase0(vector<City>& quick, vector<City>& merge)
+{
+    pair<double, double> r = sorter(quick, merge);
+
     cout << "CITY" << " | " << "STATE" << " | " << "POPULATION" << " | "
          << "ELEVATION" << " | " << "LATITUDE"  << " | " << "LONGITUDE" << " | " << "TIMEZONE"
          << endl;
@@ -88,7 +96,7 @@ void handleCase0(vector<City>& quick, vector<City>& merge)
         << endl;
     }
 
-    printResults(quickTime, mergeTime);
+    printResults(r.first, r.second);
 }
 
 // still needs binary search and printing all the cities
@@ -123,28 +131,38 @@ void handleCase1(vector<City>& quick, vector<City>& merge)
 
     cout << "you want " << c << endl;
 
-    double quickTime;
-    double mergeTime;
-    clock_t start, end;
+    pair<double, double> r = sorter(quick, merge);
 
-    start = clock();
-    quicksort(quick, 0, quick.size() - 1, compareByName);
-    end = clock();
-
-    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
-
-    start = clock();
-    mergeSort(merge, 0, merge.size() - 1, compareByName);
-    end = clock();
-
-    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
-
-    printResults(quickTime, mergeTime);
+    printResults(r.first, r.second);
 
 }
 
+// still needs binary search and printing all the cities
 void handleCase2(vector<City>& quick, vector<City>& merge)
 {
+    cout << "Which timezone do you want to print? (Type 0-6)" << endl;
+
+    int input;
+    while (true)
+    {
+        if (cin >> input)
+        {
+            if (input >= 0 && input <= 6)
+                break;
+            else
+                cout << "Invalid input. Please enter a number between 0 and 6." << endl;
+        }
+        else
+        {
+            cout << "Invalid input. Please enter a number between 0 and 6." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    pair<double, double> r = sorter(quick, merge);
+
+    printResults(r.first, r.second);
 
 }
 
@@ -193,6 +211,7 @@ int main()
             handleCase1(quick_cities, merge_cities);
             break;
         case 2:
+            handleCase2(quick_cities, merge_cities);
             break;
         case 3:
             break;
