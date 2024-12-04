@@ -154,7 +154,7 @@ void handleCase1(vector<City>& quick, vector<City>& merge)
     printResults(r.first, r.second);
 }
 
-// time isn't working properly
+// FIXED - done
 void handleCase2(vector<City>& quick, vector<City>& merge)
 {
     cout << "What letter do you want the cities to begin with? (Type a-zA-Z)" << endl;
@@ -182,7 +182,21 @@ void handleCase2(vector<City>& quick, vector<City>& merge)
         }
     }
 
-    pair<int, int> r = sorter(quick, merge);
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByName);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByName);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     pair<int, int> r2 = binarySearchByPrefix(quick, c, [](const City& city) {return city.getCityName();});
 
@@ -196,7 +210,7 @@ void handleCase2(vector<City>& quick, vector<City>& merge)
              << quick[i].getTimezone() << endl;
     }
 
-    printResults(r.first, r.second);
+    printResults(quickTime, mergeTime);
 }
 
 // done
