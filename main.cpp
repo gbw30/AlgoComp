@@ -31,9 +31,9 @@ void main_menu()
     cout << "8 - All cities under/over a specified longitude [Longitude]" << endl;
     cout << "9 - All cities in a specified state [State Name]" << endl;
     cout << "10 - All cities under/over a specified elevation [Elevation]" << endl;
-    cout << "11 - All urban cities in alphabetical order [population]" << endl;
-    cout << "12 - All suburban cities in alphabetical order [population]" << endl;
-    cout << "13 - All rural cities in alphabetical order [population]" << endl;
+    cout << "11 - All urban (> 7 million) cities in alphabetical order [population] [City Name]" << endl;
+    cout << "12 - All suburban (> 3 million and < 7 million) cities in alphabetical order [population] [City Name]" << endl;
+    cout << "13 - All rural cities in alphabetical order [population] [City Name]" << endl;
 }
 
 int underOver()
@@ -855,11 +855,207 @@ void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-void handleCase11(vector<City>& quick, vector<City>& merge)
-{}
+// done - tested - urban scope (pop > 7000000)
+void handleCase11(vector<City>& quick, vector<City>& merge) {
+    int urban_pop = 7000000;
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
 
-void handleCase12(vector<City>& quick, vector<City>& merge) {}
-void handleCase13(vector<City>& quick, vector<City>& merge) {}
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
+    end = clock();
+
+    quickTime = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByPopulation);
+    end = clock();
+
+    mergeTime = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    pair<int, int> r =
+            binarySearchClosestUpper<int>(quick, urban_pop, [](const City &city) { return city.getPopulation(); });
+
+    vector<City> newCities;
+    vector<City> newCitiesM;
+    for (int i = r.second + 1; i < quick.size(); i++)
+    {
+        newCities.push_back(quick[i]);
+        newCitiesM.push_back(quick[i]);
+    }
+    double qTime;
+    double mTime;
+
+    start = clock();
+    quicksort(newCities, 0, newCities.size() - 1, compareByName);
+    end = clock();
+
+    qTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(newCitiesM, 0, newCitiesM.size() - 1, compareByName);
+    end = clock();
+
+    mTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
+         << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+         << endl;
+    for (int i = 0; i < newCities.size(); i++)
+    {
+        cout << newCities[i].getPopulation() << " | " << newCities[i].getCityName() << " | " << newCities[i].getStateName() << " | "
+             << newCities[i].getElevation() << " | " << newCities[i].getLatitude()  << " | " << newCities[i].getLongitude() <<
+             " | " << newCities[i].getTimezone()
+             << endl;
+    }
+
+    cout << endl << "Sort by population:" << endl;
+
+    printResults(quickTime, mergeTime);
+
+    cout << endl << "Sort alphabetically:" << endl;
+
+    printResults(qTime, mTime);
+
+}
+
+// done - tested - suburban scope (3000000 > pop > 7000000)
+void handleCase12(vector<City>& quick, vector<City>& merge)
+{
+    int suburban_pop1 = 3000000;
+    int suburban_pop2 = 7000000;
+
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByPopulation);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    pair<int, int> r = binarySearchClosestUpper<int>(quick, suburban_pop1, [](const City& city) {return city.getPopulation();});
+    pair<int, int> r1 = binarySearchClosestUpper<int>(quick, suburban_pop2, [](const City& city) {return city.getPopulation();});
+
+    vector<City> newCitiesQ;
+    vector<City> newCitiesM;
+
+    for (int i = r.second + 1; i < r1.first - 1; i++)
+    {
+        newCitiesQ.push_back(quick[i]);
+        newCitiesM.push_back(quick[i]);
+    }
+
+    double qTime;
+    double mTime;
+
+    start = clock();
+    quicksort(newCitiesQ, 0, newCitiesQ.size() - 1, compareByName);
+    end = clock();
+
+    qTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(newCitiesM, 0, newCitiesM.size() - 1, compareByName);
+    end = clock();
+
+    mTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
+         << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+         << endl;
+    for (int i = 0; i < newCitiesQ.size(); i++)
+    {
+        cout << newCitiesQ[i].getPopulation() << " | " << newCitiesQ[i].getCityName() << " | " << newCitiesQ[i].getStateName() << " | "
+             << newCitiesQ[i].getElevation() << " | " << newCitiesQ[i].getLatitude()  << " | " << newCitiesQ[i].getLongitude() <<
+             " | " << newCitiesQ[i].getTimezone()
+             << endl;
+    }
+
+    cout << endl << "Sort by population:" << endl;
+
+    printResults(quickTime, mergeTime);
+
+    cout << endl << "Sort alphabetically:" << endl;
+
+    printResults(qTime, mTime);
+}
+
+// rural scope (pop < 3000000)
+void handleCase13(vector<City>& quick, vector<City>& merge)
+{
+    int rural_pop = 3000000;
+
+    double quickTime;
+    double mergeTime;
+    clock_t start, end;
+
+    start = clock();
+    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
+    end = clock();
+
+    quickTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(merge, 0, merge.size() - 1, compareByPopulation);
+    end = clock();
+
+    mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    pair<int, int> r =
+            binarySearchClosestUpper<int>(quick, rural_pop, [](const City& city) {return city.getPopulation();});
+
+    vector<City> newCitiesM;
+    vector<City> newCitiesQ;
+
+    for (int i = 0; i < r.first - 1; i++)
+    {
+        newCitiesQ.push_back(quick[i]);
+        newCitiesM.push_back(quick[i]);
+    }
+
+    double qTime;
+    double mTime;
+
+    start = clock();
+    quicksort(newCitiesQ, 0, newCitiesQ.size() - 1, compareByName);
+    end = clock();
+
+    qTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    start = clock();
+    mergeSort(newCitiesM, 0, newCitiesM.size() - 1, compareByName);
+    end = clock();
+
+    mTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
+         << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
+         << endl;
+    for (int i = 0; i < newCitiesQ.size(); i++)
+    {
+        cout << newCitiesQ[i].getPopulation() << " | " << newCitiesQ[i].getCityName() << " | " << newCitiesQ[i].getStateName() << " | "
+             << newCitiesQ[i].getElevation() << " | " << newCitiesQ[i].getLatitude()  << " | " << newCitiesQ[i].getLongitude() <<
+             " | " << newCitiesQ[i].getTimezone()
+             << endl;
+    }
+
+    cout << endl << "Sort by population:" << endl;
+
+    printResults(quickTime, mergeTime);
+
+    cout << endl << "Sort alphabetically:" << endl;
+
+    printResults(qTime, mTime);
+}
 
 void testerPopulation(vector<City>& quick, vector<City>& merge)
 {
