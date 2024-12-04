@@ -10,16 +10,18 @@
 
 using namespace std;
 
-pair<int, int> binarySearchClosestUpper(const vector<int>& arr, int x) {
-    int n = arr.size();
+template <typename T>
+pair<int, int> binarySearchClosestUpper(const vector<City>& cities, T value, function<T(const City&)> getAttribute) {
+    int n = cities.size();
     int left = 0, right = n - 1;
     int closestUpper = -1;
 
     // Binary search to find the closest upper or exact value
     while (left <= right) {
         int mid = left + (right - left) / 2;
+        T midValue = getAttribute(cities[mid]);
 
-        if (arr[mid] >= x) {
+        if (midValue >= value) {
             closestUpper = mid;
             right = mid - 1;
         } else {
@@ -33,16 +35,16 @@ pair<int, int> binarySearchClosestUpper(const vector<int>& arr, int x) {
     }
 
     // Find the range of the closest upper value
-    int closestValue = arr[closestUpper];
+    int closestValue = getAttribute(cities[closestUpper]);
     int first = closestUpper, last = closestUpper;
 
     // Expand to find the first occurrence
-    while (first > 0 && arr[first - 1] == closestValue) {
+    while (first > 0 && getAttribute(cities[first - 1]) == closestValue) {
         --first;
     }
 
     // Expand to find the last occurrence
-    while (last < n - 1 && arr[last + 1] == closestValue) {
+    while (last < n - 1 && getAttribute(cities[last + 1]) == closestValue) {
         ++last;
     }
 
