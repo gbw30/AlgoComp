@@ -6,6 +6,7 @@
 #include "BinarySearch.h"
 #include "datasetGen.h"
 
+#include <regex>
 #include <string>
 #include <time.h>
 #include <cctype>
@@ -13,13 +14,14 @@
 
 using namespace std;
 
+// checked - tested
 void main_menu()
 {
     cout << "Welcome to SuburbanScope!" << endl;
     cout << "We are going to compare two sorting algorithms: QuickSort and MergeSort!" << endl;
     cout << "After reading in over 100,000 data points we will sort the data in ascending order" << endl <<
             "based on the parameter, in [], you specified and print out what you want using binary search!" << endl;
-    cout << "What do you want printed? (Type 0-10)" << endl;
+    cout << "What do you want printed? (Integer from 0 to 13)." << endl;
     cout << "0 - All cities in alphabetical order [City Name]" << endl;
     cout << "1 - All cities with specified name [City Name]" << endl;
     cout << "2 - All cities beginning with specified letter [City Name]" << endl;
@@ -31,32 +33,31 @@ void main_menu()
     cout << "8 - All cities under/over a specified longitude [Longitude]" << endl;
     cout << "9 - All cities in a specified state [State Name]" << endl;
     cout << "10 - All cities under/over a specified elevation [Elevation]" << endl;
-    cout << "11 - All urban (> 7 million) cities in alphabetical order [population] [City Name]" << endl;
-    cout << "12 - All suburban (> 3 million and < 7 million) cities in alphabetical order [population] [City Name]" << endl;
-    cout << "13 - All rural cities in alphabetical order [population] [City Name]" << endl;
+    cout << "11 - All urban (> 7 million) cities in alphabetical order [Population] [City Name]" << endl;
+    cout << "12 - All suburban (> 3 million and < 7 million) cities in alphabetical order [Population] [City Name]" << endl;
+    cout << "13 - All rural cities in alphabetical order [Population] [City Name]" << endl;
 }
 
+// REGEX ADDED 2 3 - tested
 int underOver()
 {
-    cout << R"(Would you like under or over? (Type "O" or "U"))" << endl;
-    string input2;
+    cout << R"(Would you like under or over? (Single character 'O', 'o', 'U', or 'u').)" << endl;
+    string input;
+    regex pattern("^[OoUu]$");
+    regex pattern1("^[Uu]$");
+
     while (true)
     {
-        if (cin >> input2)
+        getline(cin, input);
+        if (regex_match(input, pattern))
         {
-            if (input2 == "U" || input2 == "O")
-                if (input2 == "U")
-                    return 1;
-                else
-                    return 2;
+            if (regex_match(input, pattern1))
+                return 1;
             else
-                cout << R"(Invalid input. Please enter "O" or "U".)" << endl;
+                return 2;
         }
         else
-        {
-            cout << R"(Invalid input. Please enter "O" or "U".)" << endl;
-            cin.clear();
-        }
+            cout << "Invalid Input. Please enter single character 'O', 'o', 'U', or 'u'." << endl;
     }
 }
 
@@ -87,7 +88,7 @@ pair<double, double> sorter(vector<City>& quick, vector<City>& merge)
     return make_pair(quickTime, mergeTime);
 }
 
-// done - tested
+// done - tested - REGEX ADDED 2 3 - tested
 void handleCase0(vector<City>& quick, vector<City>& merge)
 {
     pair<double, double> r = sorter(quick, merge);
@@ -105,32 +106,18 @@ void handleCase0(vector<City>& quick, vector<City>& merge)
     printResults(r.first, r.second);
 }
 
-// done - tested
+// done - tested - REGEX ADDED 2 3 - tested
 void handleCase1(vector<City>& quick, vector<City>& merge)
 {
-    cout << "What named cities do you want to print? (Type A-Za-z)" << endl;
+    cout << "Enter city name. (First letter A-Z, rest a-z)." << endl;
     string input2;
+    regex pattern("^[A-Z][a-z]*$");
 
     while (true)
     {
-        if (cin >> input2)
-        {
-            bool isString = true;
-            for (int i = 0; i < input2.size(); i++)
-                if (!isalpha(char(input2[i]))) isString = false;
-
-            if (isString)
-            {
-                break;
-            }
-            else
-                cout << R"(Invalid input. Please enter A-Za-z.)" << endl;
-        }
-        else
-        {
-            cout << R"(Invalid input. Please enter A-Za-z.)" << endl;
-            cin.clear();
-        }
+        getline(cin, input2);
+        if (regex_match(input2, pattern)) break;
+        else cout << "Invalid Input. Please enter first letter A-Z, rest a-z." << endl;
     }
 
     pair<double, double> r = sorter(quick, merge);
@@ -158,32 +145,25 @@ void handleCase1(vector<City>& quick, vector<City>& merge)
     printResults(r.first, r.second);
 }
 
-// FIXED - done
+// FIXED - done - REGEX ADDED 2 3 - tested
 void handleCase2(vector<City>& quick, vector<City>& merge)
 {
-    cout << "What letter do you want the cities to begin with? (Type a-zA-Z)" << endl;
+    cout << "Enter first letter of city. (One character A-Z or a-z)." << endl;
     string input2;
+    regex pattern("^[a-zA-Z]$");
     char c;
 
     while (true)
     {
-        if (cin >> input2)
+        getline(cin, input2);
+        if (regex_match(input2, pattern))
         {
-            if (input2.size() == 1 && isalpha(char(input2[0])))
-            {
-                c = char(input2[0]);
-                if (islower(c))
-                    c = toupper(c);
-                break;
-            }
-            else
-                cout << R"(Invalid input. Please enter A-Za-z.)" << endl;
+            c = input2[0];
+            if (islower(c))
+                c = toupper(c);
+            break;
         }
-        else
-        {
-            cout << R"(Invalid input. Please enter A-Za-z.)" << endl;
-            cin.clear();
-        }
+        else cout << "Invalid Input. Please enter one character A-Z or a-z." << endl;
     }
 
     double quickTime;
@@ -217,27 +197,26 @@ void handleCase2(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested
+// done - tested - REGEX ADDED 2 3 - tested
 void handleCase3(vector<City>& quick, vector<City>& merge)
 {
-    cout << "Which timezone do you want to print? (Type 0-6)" << endl;
+    cout << "Enter a timezone. (Single digit 0-6)." << endl;
 
+    string input2;
     int input;
+    regex pattern("^[0-6]$");
+
     while (true)
     {
-        if (cin >> input)
+        getline(cin, input2);
+        if (regex_match(input2, pattern))
         {
-            if (input >= 0 && input <= 6)
-                break;
-            else
-                cout << "Invalid input. Please enter a number between 0 and 6." << endl;
+            input = stoi(input2);
+            break;
         }
         else
-        {
-            cout << "Invalid input. Please enter a number between 0 and 6." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+            cout << "Invalid Input. Please enter a single digit 0-6." << endl;
+
     }
 
     double quickTime;
@@ -278,27 +257,28 @@ void handleCase3(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested
+// done - tested - REGEX ADDED 2 3 - tested
 void handleCase4(vector<City>& quick, vector<City>& merge)
 {
-    cout << "What exact population do you want? (Type 150-9997672)" << endl;
-
+    cout << "Enter exact population. (Integer from 150 to 9997672)." << endl;
+    regex pattern("^([1-9][0-9]{2,6}|[1-9][0-9]{2,5}[0-9]{0,1})$");
+    string input2;
     int input;
+
     while (true)
     {
-        if (cin >> input)
+        getline(cin, input2);
+        if (regex_match(input2, pattern))
         {
+            input = stoi(input2);
             if (input >= 150 && input <= 9997672)
                 break;
             else
-                cout << "Invalid input. Please enter a number between 150 and 9997672." << endl;
+                cout << "Invalid Input. Please enter integer from 150 to 9997672." << endl;
+
         }
         else
-        {
-            cout << "Invalid input. Please enter a number between 150 and 9997672." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+            cout << "Invalid Input. Please enter integer from 150 to 9997672." << endl;
     }
 
     double quickTime;
@@ -340,30 +320,32 @@ void handleCase4(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// FIXED - done - tested
+// FIXED - done - tested - REGEX ADDED 2 3 - tested
 void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
-        cout << "Under what population do you want the cities? (Type 150-9997672)" << endl;
+        cout << "Enter maximum population [non-inclusive]. (Integer from 150 to 9997672)." << endl;
     else
-        cout << "Over what population do you want the cities? (Type 150-9997672)" << endl;
+        cout << "Enter minimum population [non-inclusive]. (Integer from 150 to 9997672)." << endl;
 
+    string input2;
     int input;
+    regex pattern("^([1-9][0-9]{2,6}|[1-9][0-9]{2,5}[0-9]{0,1})$");
+
     while (true)
     {
-        if (cin >> input)
+        getline(cin, input2);
+
+        if (regex_match(input2, pattern))
         {
+            input = stoi(input2);
             if (input >= 150 && input <= 9997672)
                 break;
             else
-                cout << "Invalid input. Please enter a number between 150 and 9997672." << endl;
+                cout << "Invalid Input. Please enter integer from 150 to 9997672." << endl;
         }
         else
-        {
-            cout << "Invalid input. Please enter a number between 150 and 9997672." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+            cout << "Invalid Input. Please enter integer from 150 to 9997672." << endl;
     }
 
     double quickTime;
@@ -429,58 +411,36 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done finally - tested (maybe needs better string parsing?)
+// done finally - REGEX ADDED 2 3 need bin search lower
 void handleCase6(vector<City>& quick, vector<City>& merge)
 {
-    cout << "Which populations do you want to be in between? (Type 150-9997672 150-9997672)" << endl;
+    cout << "Enter a population range [non-inclusive]. (Integers from 150 to 9997672 with space in between. Integer 1 > Integer 2)." << endl;
 
     string input2;
-    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    getline(cin, input2);
     int lower, upper;
+    regex pattern("^([1-9][0-9]{2,6})\\s([1-9][0-9]{2,6})$");
 
     while (true)
     {
-        bool isString = true;
-        int counter = 0;
-        if (input2[0] == ' ')
-            isString = false;
-        for (int i = 0; i < input2.size(); i++)
+        getline(cin, input2);
+        if (regex_match(input2, pattern))
         {
-            if (char(input2[i]) == ' ')
-                counter++;
-        }
-        if (counter != 1)
-            isString = false;
+            int num1;
+            int num2;
 
-        for (int i = 0; i < input2.size(); i++)
-            if (!(isdigit(char(input2[i])) || char(input2[i]) == ' ')) isString = false;
-
-        if (isString)
-        {
-            int counter2 = 0;
-            for (int i = 0; i < input2.size(); i++)
+            stringstream ss(input2);
+            if (ss >> num1 >> num2)
             {
-                if (input2[i] == ' ')
-                    break;
-                counter2++;
+                lower = num1;
+                upper = num2;
             }
-            lower = stoi(input2.substr(0, counter2));
-            upper = stoi(input2.substr(counter2 + 1, input2.size() - counter2 + 1));
-            if (!(lower >= 150 && upper <= 9997672 && upper >= lower))
-                isString = false;
-        }
-
-
-        if (isString)
-        {
-            break;
+            if (num1 < num2 && num1 >= 150 && num2 <= 9997672)
+                break;
+            else
+                cout << "Invalid Input. Please enter integers from 150 to 9997672 with space in between. Integer 1 > Integer 2." << endl;
         }
         else
-            cout << R"(Invalid input. Please enter 150-9997672 150-9997672.)" << endl;
-
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        getline(cin, input2);
+            cout << "Invalid Input. Please enter integers from 150 to 9997672 with space in between. Integer 1 > Integer 2." << endl;
     }
 
     double quickTime;
@@ -502,12 +462,12 @@ void handleCase6(vector<City>& quick, vector<City>& merge)
     pair<int, int> r = binarySearchClosestUpper<int>(quick, lower, [](const City& city) {return city.getPopulation();});
     pair<int, int> r1 = binarySearchClosestUpper<int>(quick, upper, [](const City& city) {return city.getPopulation();});
 
-    if (r.second < r1.first)
+    if (r.second <= r1.first)
     {
         cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
              << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
              << endl;
-        for (int i = r.second + 1; i < r1.first - 1; i++)
+        for (int i = r.second + 1; i <= r1.first - 1; i++)
         {
             cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
                  << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
@@ -523,30 +483,28 @@ void handleCase6(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested
+// done - tested - REGEX ADDED 2 3
 void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
-        cout << "Under what latitude do you want the cities? (Type 30.0-49.9999)" << endl;
+        cout << "Enter maximum latitude [non-inclusive]. (Number from 30 to 49.999)." << endl;
     else
-        cout << "Over what latitude do you want the cities? (Type 30.0-49.999)" << endl;
+        cout << "Enter minimum latitude [non-inclusive]. (Number from 30 to 49.999)." << endl;
 
     float input;
+    string input2;
+    regex pattern("^(?:[3-4][0-9](?:\\.\\d{1,3})?|49(\\.9{1,3})?)$");
+
     while (true)
     {
-        if (cin >> input)
+        getline(cin, input2);
+        if (regex_match(input2, pattern))
         {
-            if (input >= 30.0 && input <= 49.999)
-                break;
-            else
-                cout << "Invalid input. Please enter a number between 30 and 49.999." << endl;
+            input = stof(input2);
+            break;
         }
         else
-        {
-            cout << "Invalid input. Please enter a number between 40.0 and 49.999." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+            cout << "Invalid Input. Please enter number from 30 to 49.999." << endl;
     }
 
     double quickTime;
@@ -614,30 +572,28 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
     cout << r.first - 1 << endl;
 }
 
-// done - tested
+// done - tested - REGEX ADDED 2 3
 void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
-        cout << "Under what longitude do you want the cities? (Type 63.0-132.996)" << endl;
+        cout << "Enter maximum longitude [non-inclusive]. (Number from 63 to 132.996)." << endl;
     else
-        cout << "Over what longitude do you want the cities? (Type 63.0-132.996)" << endl;
+        cout << "Enter minimum longitude [non-inclusive]. (Number from 63 to 132.996)." << endl;
 
     float input;
+    string input2;
+    regex pattern("^(?:[6-9][3-9](?:\\.\\d{1,3})?|1[0-2][0-9](?:\\.\\d{1,3})?|132(\\.0{1,3})?)$");
+
     while (true)
     {
-        if (cin >> input)
+        getline(cin, input2);
+        if (regex_match(input2, pattern))
         {
-            if (input >= 63.0 && input <= 132.996)
-                break;
-            else
-                cout << "Invalid input. Please enter a number between 63.0 and 132.996." << endl;
+            input = stof(input2);
+            break;
         }
         else
-        {
-            cout << "Invalid input. Please enter a number between 63.0 and 132.996." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+            cout << "Invalid Input. Please enter number from 63 to 132.996." << endl;
     }
 
     double quickTime;
@@ -703,28 +659,20 @@ void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// fixed - done - tested
+// fixed - done - tested - REGEX ADDED 2 3
 void handleCase9(vector<City>& quick, vector<City>& merge)
 {
-    cout << "What state do you want the cities to be from? (Type A-Za-z)" << endl;
+    cout << "Enter state name. (First letter A-Z, rest a-z. If two words, then separate by space)." << endl;
     string input2;
-    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    getline(cin, input2);
+    regex pattern("^[A-Z][a-z]*$");
 
     while (true)
     {
-        bool isString = true;
-        for (int i = 0; i < input2.size(); i++)
-            if (!(isalpha(char(input2[i])) || char(input2[i]) == ' ')) isString = false;
-
-        if (isString)
-        {
-            break;
-        }
-        else
-            cout << R"(Invalid input. Please enter A-Za-z.)" << endl;
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         getline(cin, input2);
+        if (regex_match(input2, pattern))
+            break;
+        else
+            cout << "Invalid Input. Please enter first letter A-Z, rest a-z. If two words, then separate by space." << endl;
     }
 
     double quickTime;
@@ -766,30 +714,29 @@ void handleCase9(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested
+// done - tested - REGEX ADDED 2 3
 void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
-        cout << "Under what elevation do you want the cities? (Type 0-9999)" << endl;
+        cout << "Enter maximum elevation [non-inclusive]. (Integer from 0 to 9999)." << endl;
     else
-        cout << "Over what elevation do you want the cities? (Type 0-9999)" << endl;
+        cout << "Enter minimum elevation [non-inclusive]. (Integer from 0 to 9999)." << endl;
 
+    string input2;
     int input;
+    regex pattern("^([0-9]|[1-9][0-9]{1,3})$");
+
     while (true)
     {
-        if (cin >> input)
+        getline(cin, input2);
+        if (regex_match(input2, pattern))
         {
-            if (input >= 0 && input <= 9999)
-                break;
-            else
-                cout << "Invalid input. Please enter a number between 0 and 9999." << endl;
+            input = stoi(input2);
+            break;
         }
         else
-        {
-            cout << "Invalid input. Please enter a number between 0 and 9999." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+            cout << "Invalid Input. Please enter integer from 0 to 9999." << endl;
+
     }
 
     double quickTime;
@@ -855,7 +802,7 @@ void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested - urban scope (pop > 7000000)
+// done - tested - urban scope (pop > 7000000) 2 3
 void handleCase11(vector<City>& quick, vector<City>& merge) {
     int urban_pop = 7000000;
     double quickTime;
@@ -920,7 +867,7 @@ void handleCase11(vector<City>& quick, vector<City>& merge) {
 
 }
 
-// done - tested - suburban scope (3000000 > pop > 7000000)
+// done - tested - suburban scope (3000000 > pop > 7000000) 2 3
 void handleCase12(vector<City>& quick, vector<City>& merge)
 {
     int suburban_pop1 = 3000000;
@@ -989,7 +936,7 @@ void handleCase12(vector<City>& quick, vector<City>& merge)
     printResults(qTime, mTime);
 }
 
-// rural scope (pop < 3000000)
+// rural scope (pop < 3000000) 2 3
 void handleCase13(vector<City>& quick, vector<City>& merge)
 {
     int rural_pop = 3000000;
@@ -1100,18 +1047,19 @@ void testerStrings(vector<City>& quick, vector<City>& merge)
 
 void tester3(vector<City>& quick, vector<City>& merge)
 {
-    quicksort(quick, 0, quick.size() - 1, compareByLongitude);
+    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
 
     //cout << r.first << "  " << r.second << endl;
 
-    cout << quick[0].getLongitude() << "   " << quick[quick.size() - 1].getLongitude() << endl;
-//    for (int i = 0; i <= quick.size() - 1; i++)
-//    {
-//        cout << endl;
-//    }
+    // cout << quick[0].getLongitude() << "   " << quick[quick.size() - 1].getLongitude() << endl;
+    for (int i = 0; i <= quick.size() - 1; i++)
+    {
+        cout << quick[i].getPopulation() << endl;
+    }
 
 }
 
+// 3
 int main()
 {
     // dataSetCreator();
@@ -1119,24 +1067,24 @@ int main()
     vector<City> quick_cities = readFromCSV("../test.txt");
     vector<City> merge_cities = readFromCSV("../test.txt");
 
+    tester3(quick_cities, merge_cities);
+
     main_menu();
+    string inputBuffer;
     int input;
+    regex pattern("^(?:[0-9]|1[0-3])$");
+
 
     while (true)
     {
-        if (cin >> input)
+        getline(cin, inputBuffer);
+        if (regex_match(inputBuffer, pattern))
         {
-            if (input >= 0 && input <= 13)
-                break;
-            else
-                cout << "Invalid input. Please enter a number between 0 and 13." << endl;
+            input = stoi(inputBuffer);
+            break;
         }
         else
-        {
-            cout << "Invalid input. Please enter a number between 0 and 13." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
+            cout << "Invalid Input. Please enter integer from 0 to 13." << endl;
     }
 
     int uo;
