@@ -11,6 +11,47 @@
 using namespace std;
 
 template <typename T>
+pair<int, int> binarySearchClosestLower(const vector<City>& cities, T value, function<T(const City&)> getAttribute) {
+    int n = cities.size();
+    int left = 0, right = n - 1;
+    int closestLower = -1;
+
+    // Binary search to find the closest lower or exact value
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        T midValue = getAttribute(cities[mid]);
+
+        if (midValue <= value) {
+            closestLower = mid;
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    if (closestLower == -1) {
+        // No lower value exists (value is smaller than all elements)
+        return {-1, -1};
+    }
+
+    // Find the range of the closest lower value
+    T closestValue = getAttribute(cities[closestLower]);
+    int first = closestLower, last = closestLower;
+
+    // Expand to find the first occurrence
+    while (first > 0 && getAttribute(cities[first - 1]) == closestValue) {
+        --first;
+    }
+
+    // Expand to find the last occurrence
+    while (last < n - 1 && getAttribute(cities[last + 1]) == closestValue) {
+        ++last;
+    }
+
+    return {first, last};
+}
+
+template <typename T>
 pair<int, int> binarySearchClosestUpper(const vector<City>& cities, T value, function<T(const City&)> getAttribute) {
     int n = cities.size();
     int left = 0, right = n - 1;
