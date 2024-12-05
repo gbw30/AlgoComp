@@ -320,7 +320,7 @@ void handleCase4(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// FIXED - done - tested - REGEX ADDED 2 3 - tested
+// FIXED - done - tested - REGEX ADDED 2 3 - need bin search lower - tested
 void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -363,9 +363,17 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
     end = clock();
 
     mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+    pair<int, int> r;
 
-    pair<int, int> r =
-            binarySearchClosestUpper<int>(quick, input, [](const City& city) {return city.getPopulation();});
+    if (ou == 1)
+    {
+        r = binarySearchClosestUpper<int>(quick, input, [](const City& city) {return city.getPopulation();});
+    }
+    else
+    {
+        r = binarySearchClosestLower<int>(quick, input, [](const City& city) {return city.getPopulation();});
+    }
+
 
     if (ou == 1)
     {
@@ -394,7 +402,7 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
             cout << "POPULATION" << " | " << "CITY" << " | " << "STATE" << " | "
                  << "ELEVATION" << " | " << "LATITUDE" << " | " << "LONGITUDE" << " | " << "TIMEZONE"
                  << endl;
-            for (int i = r.second; i <= quick.size() - 1; i++)
+            for (int i = r.second + 1; i <= quick.size() - 1; i++)
             {
                 cout << quick[i].getPopulation() << " | " << quick[i].getCityName() << " | " << quick[i].getStateName() << " | "
                      << quick[i].getElevation() << " | " << quick[i].getLatitude()  << " | " << quick[i].getLongitude() <<
@@ -411,7 +419,7 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done finally - REGEX ADDED 2 3 need bin search lower
+// done finally - REGEX ADDED 2 3 - need bin search lower - tested
 void handleCase6(vector<City>& quick, vector<City>& merge)
 {
     cout << "Enter a population range [non-inclusive]. (Integers from 150 to 9997672 with space in between. Integer 1 > Integer 2)." << endl;
@@ -459,7 +467,7 @@ void handleCase6(vector<City>& quick, vector<City>& merge)
 
     mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    pair<int, int> r = binarySearchClosestUpper<int>(quick, lower, [](const City& city) {return city.getPopulation();});
+    pair<int, int> r = binarySearchClosestLower<int>(quick, lower, [](const City& city) {return city.getPopulation();});
     pair<int, int> r1 = binarySearchClosestUpper<int>(quick, upper, [](const City& city) {return city.getPopulation();});
 
     if (r.second <= r1.first)
@@ -483,7 +491,7 @@ void handleCase6(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested - REGEX ADDED 2 3
+// done - tested - REGEX ADDED 2 3 - need bin search - tested
 void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -523,8 +531,11 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
 
     mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    pair<int, int> r =
-            binarySearchClosestUpper<float>(quick, input, [](const City& city) {return city.getLatitude();});
+    pair<int, int> r ;
+    if (ou == 1)
+        r = binarySearchClosestUpper<float>(quick, input, [](const City& city) {return city.getLatitude();});
+    else
+        r = binarySearchClosestLower<float>(quick, input, [](const City& city) {return city.getLatitude();});
 
     if (ou == 1)
     {
@@ -572,7 +583,7 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
     cout << r.first - 1 << endl;
 }
 
-// done - tested - REGEX ADDED 2 3
+// done - tested - REGEX ADDED 2 3 - need bin search - tested
 void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -582,7 +593,7 @@ void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
 
     float input;
     string input2;
-    regex pattern("^(?:[6-9][3-9](?:\\.\\d{1,3})?|1[0-2][0-9](?:\\.\\d{1,3})?|132(\\.0{1,3})?)$");
+    regex pattern("^(?:(6[3-9]|[7-9][0-9]|1[01][0-9]|132)\\.\\d{1,3}|(6[3-9]|[7-9][0-9]|1[01][0-9]|132))$");
 
     while (true)
     {
@@ -612,8 +623,13 @@ void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
 
     mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    pair<int, int> r =
-            binarySearchClosestUpper<float>(quick, input, [](const City& city) {return city.getLongitude();});
+    pair<int, int> r;
+
+    if (ou == 1)
+        r = binarySearchClosestUpper<float>(quick, input, [](const City& city) {return city.getLongitude();});
+    else
+        r = binarySearchClosestLower<float>(quick, input, [](const City& city) {return city.getLongitude();});
+
 
     if (ou == 1)
     {
@@ -659,12 +675,12 @@ void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// fixed - done - tested - REGEX ADDED 2 3
+// fixed - done - tested - REGEX ADDED 2 3 - tested
 void handleCase9(vector<City>& quick, vector<City>& merge)
 {
     cout << "Enter state name. (First letter A-Z, rest a-z. If two words, then separate by space)." << endl;
     string input2;
-    regex pattern("^[A-Z][a-z]*$");
+    regex pattern("^[A-Z][a-z]*$|^[A-Z][a-z]* [A-Z][a-z]*$");
 
     while (true)
     {
@@ -714,7 +730,7 @@ void handleCase9(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested - REGEX ADDED 2 3
+// done - tested - REGEX ADDED 2 3 - need bin search - tested
 void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -755,8 +771,11 @@ void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
 
     mergeTime = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    pair<int, int> r =
-            binarySearchClosestUpper<int>(quick, input, [](const City& city) {return city.getElevation();});
+    pair<int, int> r;
+    if (ou == 1)
+        r = binarySearchClosestUpper<int>(quick, input, [](const City& city) {return city.getElevation();});
+    else
+        r = binarySearchClosestLower<int>(quick, input, [](const City& city) {return city.getElevation();});
 
     if (ou == 1)
     {
@@ -802,7 +821,7 @@ void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested - urban scope (pop > 7000000) 2 3
+// done - tested - urban scope (pop > 7000000) 2 3 - tested
 void handleCase11(vector<City>& quick, vector<City>& merge) {
     int urban_pop = 7000000;
     double quickTime;
@@ -867,7 +886,7 @@ void handleCase11(vector<City>& quick, vector<City>& merge) {
 
 }
 
-// done - tested - suburban scope (3000000 > pop > 7000000) 2 3
+// done - tested - suburban scope (3000000 > pop > 7000000) 2 3 - tested
 void handleCase12(vector<City>& quick, vector<City>& merge)
 {
     int suburban_pop1 = 3000000;
@@ -936,7 +955,7 @@ void handleCase12(vector<City>& quick, vector<City>& merge)
     printResults(qTime, mTime);
 }
 
-// rural scope (pop < 3000000) 2 3
+// rural scope (pop < 3000000) 2 3 - tested
 void handleCase13(vector<City>& quick, vector<City>& merge)
 {
     int rural_pop = 3000000;
@@ -1047,27 +1066,27 @@ void testerStrings(vector<City>& quick, vector<City>& merge)
 
 void tester3(vector<City>& quick, vector<City>& merge)
 {
-    quicksort(quick, 0, quick.size() - 1, compareByPopulation);
+    quicksort(quick, 0, quick.size() - 1, compareByElevation);
 
     //cout << r.first << "  " << r.second << endl;
 
     // cout << quick[0].getLongitude() << "   " << quick[quick.size() - 1].getLongitude() << endl;
     for (int i = 0; i <= quick.size() - 1; i++)
     {
-        cout << quick[i].getPopulation() << endl;
+        cout << quick[i].getElevation() << endl;
     }
 
 }
 
-// 3
+// 3 - tested
 int main()
 {
-    // dataSetCreator();
+    //dataSetCreator();
 
     vector<City> quick_cities = readFromCSV("../test.txt");
     vector<City> merge_cities = readFromCSV("../test.txt");
 
-    tester3(quick_cities, merge_cities);
+    //tester3(quick_cities, merge_cities);
 
     main_menu();
     string inputBuffer;
