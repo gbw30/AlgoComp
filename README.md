@@ -1,5 +1,5 @@
 <H1> Suburban Scope </h1>
-This program takes a data set of cities and prints a list of cities in the data set that have the attribute specified by the user. It also uses quick sort and merge sort and compares the time complexity of both algorithms to sort the data so that binary search can be used to retrieve the values for printing. Additionally, a random city data set generator is included in the repository. This program can be modified for different types of data.
+This program takes a data set of cities and prints a list of cities in the data set that have the attribute specified by the user. It also uses quick sort and merge sort and compares the time complexity of both algorithms to sort the data so that binary search can be used to retrieve the values for printing. Additionally, a random city data set generator is included in the repository. This program can be modified for different types of data. Make sure to configure cmake file (if using Clion, there is an option that will configure it for you).
 
 <h2> Features </h2>
 
