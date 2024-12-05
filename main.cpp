@@ -320,7 +320,7 @@ void handleCase4(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// FIXED - done - tested - REGEX ADDED 2 3 - tested
+// FIXED - done - tested - REGEX ADDED 2 3 - need bin search lower -
 void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -411,7 +411,7 @@ void handleCase5(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done finally - REGEX ADDED 2 3 need bin search lower
+// done finally - REGEX ADDED 2 3 - need bin search lower -
 void handleCase6(vector<City>& quick, vector<City>& merge)
 {
     cout << "Enter a population range [non-inclusive]. (Integers from 150 to 9997672 with space in between. Integer 1 > Integer 2)." << endl;
@@ -483,7 +483,7 @@ void handleCase6(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested - REGEX ADDED 2 3
+// done - tested - REGEX ADDED 2 3 - need bin search lower -
 void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -568,11 +568,9 @@ void handleCase7(int ou, vector<City>& quick, vector<City>& merge)
     }
 
     printResults(quickTime, mergeTime);
-
-    cout << r.first - 1 << endl;
 }
 
-// done - tested - REGEX ADDED 2 3
+// done - tested - REGEX ADDED 2 3 - need bin search lower -
 void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -659,12 +657,12 @@ void handleCase8(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// fixed - done - tested - REGEX ADDED 2 3
+// fixed - done - tested - REGEX ADDED 2 3 - tested
 void handleCase9(vector<City>& quick, vector<City>& merge)
 {
     cout << "Enter state name. (First letter A-Z, rest a-z. If two words, then separate by space)." << endl;
     string input2;
-    regex pattern("^[A-Z][a-z]*$");
+    regex pattern("^[A-Z][a-z]*$|^[A-Z][a-z]* [A-Z][a-z]*$");
 
     while (true)
     {
@@ -714,7 +712,7 @@ void handleCase9(vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested - REGEX ADDED 2 3
+// done - tested - REGEX ADDED 2 3 - need bin search lower -
 void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
 {
     if (ou == 1)
@@ -802,7 +800,7 @@ void handleCase10(int ou, vector<City>& quick, vector<City>& merge)
     printResults(quickTime, mergeTime);
 }
 
-// done - tested - urban scope (pop > 7000000) 2 3
+// done - tested - urban scope (pop > 7000000) 2 3 - tested
 void handleCase11(vector<City>& quick, vector<City>& merge) {
     int urban_pop = 7000000;
     double quickTime;
@@ -867,7 +865,7 @@ void handleCase11(vector<City>& quick, vector<City>& merge) {
 
 }
 
-// done - tested - suburban scope (3000000 > pop > 7000000) 2 3
+// done - tested - suburban scope (3000000 > pop > 7000000) 2 3 - tested
 void handleCase12(vector<City>& quick, vector<City>& merge)
 {
     int suburban_pop1 = 3000000;
@@ -936,7 +934,7 @@ void handleCase12(vector<City>& quick, vector<City>& merge)
     printResults(qTime, mTime);
 }
 
-// rural scope (pop < 3000000) 2 3
+// rural scope (pop < 3000000) 2 3 - tested
 void handleCase13(vector<City>& quick, vector<City>& merge)
 {
     int rural_pop = 3000000;
